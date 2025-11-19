@@ -7,6 +7,11 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for BinaryMaxHeap and FindKLargest
+ * @author Max Barker & Josi Gac
+ * @version 11/19/25
+ */
 class BinaryMaxHeapTester {
 
 	@Test
