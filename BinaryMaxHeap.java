@@ -137,33 +137,39 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 	private void percolateDown(E item, int node) {
 		int left = node * 2 + 1;
 		int right = node * 2 + 2;
-		if (heap[left] != null) {
-			if (item.compareTo(heap[left]) >= 0 ) {
-				return;
-			}
-		} 
-		
-		if (heap[right] != null) {
-			if (item.compareTo(heap[right]) >= 0) {
-				return;
-			}
-		}
-		
+	
 		if (heap[right] == null && heap[left] == null) {
 			return;
-		}
-		
-		
-		if (heap[left].compareTo(heap[right]) > 0) {
-			E temp = heap[left];
-			heap[left] = item;
-			heap[node] = temp;
-			percolateDown(item, left);
+		} else if (heap[left] == null) {
+			if (heap[node].compareTo(heap[right]) < 0) {
+				E temp = heap[right];
+				heap[right] = item;
+				heap[node] = temp;
+				percolateDown(item, right);
+			} else return;
+
+		} else if (heap[right] == null) {
+			if (heap[node].compareTo(heap[left]) < 0) {
+				E temp = heap[left];
+				heap[left] = item;
+				heap[node] = temp;
+				percolateDown(item, left);			
+			} else return;
+
+		} else if (heap[left].compareTo(heap[right]) > 0) {
+			if (heap[node].compareTo(heap[left]) < 0) {
+				E temp = heap[left];
+				heap[left] = item;
+				heap[node] = temp;
+				percolateDown(item, left);
+			} else return;
 		} else {
-			E temp = heap[right];
-			heap[right] = item;
-			heap[node] = temp;
-			percolateDown(item, right);
-		}
-	}
+			if (heap[node].compareTo(heap[right]) < 0) {
+				E temp = heap[right];
+				heap[right] = item;
+				heap[node] = temp;
+				percolateDown(item, right);
+			} else return;
+		} 
+	} 
 }
