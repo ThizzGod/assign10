@@ -82,12 +82,50 @@ class BinaryMaxHeapTester {
         list.add(100);
         list.add(3);
         list.add(20);
+        list.add(1000);
+        list.add(6);
+        list.add(9);
+        list.add(6);
+        list.add(7);
+        list.add(-5000);
+        list.add(2000);
+        
 
         BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<>(list);
 
-        assertEquals(100, heap.peek());
+        assertEquals(2000, heap.peek());
         assertEquals(list.size(), heap.size());
     }
+	
+	@Test
+	public void testAddMultipleWithComparator() {
+		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<>((Integer a, Integer b) -> a.compareTo(b));
+		heap.add(10);
+		heap.add(40);
+		heap.add(5);
+		heap.add(30);
+		assertEquals(40, heap.peek());
+	}
+	
+	@Test
+	public void testExtractMaxWithComparator() {
+		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<>((Integer a, Integer b) -> a.compareTo(b));
+		heap.add(10);
+		heap.add(30);
+		heap.add(20);
+		heap.add(600);
+		heap.add((-12));
+		heap.add(14);
+		heap.add(-50);
+		assertEquals(600, heap.extractMax());
+		assertEquals(30, heap.extractMax());
+		assertEquals(20, heap.extractMax());
+		assertEquals(14, heap.extractMax());
+		assertEquals(10, heap.extractMax());
+		assertEquals(-12, heap.extractMax());
+		assertEquals(-50, heap.extractMax());
+		assertTrue(heap.isEmpty());
+	}
         
         // Tests for K largest
 
@@ -159,34 +197,5 @@ class BinaryMaxHeapTester {
         assertEquals(expected, result);
     }
 	
-	@Test
-	public void testAddMultipleWithComparator() {
-		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<>((Integer a, Integer b) -> a.compareTo(b));
-		heap.add(10);
-		heap.add(40);
-		heap.add(5);
-		heap.add(30);
-		assertEquals(40, heap.peek());
-	}
-	
-	@Test
-	public void testExtractMaxWithComparator() {
-		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<>((Integer a, Integer b) -> a.compareTo(b));
-		heap.add(10);
-		heap.add(30);
-		heap.add(20);
-		heap.add(600);
-		heap.add((-12));
-		heap.add(14);
-		heap.add(-50);
-		assertEquals(600, heap.extractMax());
-		assertEquals(30, heap.extractMax());
-		assertEquals(20, heap.extractMax());
-		assertEquals(14, heap.extractMax());
-		assertEquals(10, heap.extractMax());
-		assertEquals(-12, heap.extractMax());
-		assertEquals(-50, heap.extractMax());
-		assertTrue(heap.isEmpty());
-	}
 
 }

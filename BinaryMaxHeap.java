@@ -39,7 +39,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 * @param list
 	 */
 	public BinaryMaxHeap(List<? extends E> list) {
-		
+		this.size = list.size();
+		buildHeap(list);
 	}
 
 	/**
@@ -83,9 +84,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		E replacement = heap[size - 1];
 		heap[0] = replacement;
 		heap[size - 1] = null;
-		
-		percolateDown(replacement, 0);
 		size--;
+		percolateDown(replacement, 0);
+		
 		return value;
 	}
 
@@ -141,9 +142,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		int left = node * 2 + 1;
 		int right = node * 2 + 2;
 	
-		if (heap[right] == null && heap[left] == null) {
+		if (right >= size && left >= size) {
 			return;
-		} else if (heap[left] == null) {
+		} else if (left >= size) {
 			if (innerCompare(heap[node], heap[right]) < 0) {
 				E temp = heap[right];
 				heap[right] = item;
@@ -151,7 +152,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 				percolateDown(item, right);
 			} else return;
 
-		} else if (heap[right] == null) {
+		} else if (right >= size) {
 			if (innerCompare(heap[node], heap[left]) < 0) {
 				E temp = heap[left];
 				heap[left] = item;
@@ -183,5 +184,15 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		}
 		
 		return ((Comparable<? super E>) a).compareTo(b);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void buildHeap(List<? extends E> list) {
+		this.heap = (E[]) list.toArray();
+		int start = (size - 2)/2 ;
+		for (int i = start; i >= 0; i--) {
+			percolateDown(list.get(i), i);
+		}
+		
 	}
 }
