@@ -3,6 +3,7 @@ package assign10;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -125,6 +126,31 @@ class BinaryMaxHeapTester {
 		assertEquals(-12, heap.extractMax());
 		assertEquals(-50, heap.extractMax());
 		assertTrue(heap.isEmpty());
+	}
+	
+	@Test
+	public void testLargeHeapListConstructor() {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 50; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<Integer>(list);
+		assertEquals(49, heap.peek());
+	}
+	
+	@Test
+	public void testLargeHeapAddGrowArray() {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < 50; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		BinaryMaxHeap<Integer> heap = new BinaryMaxHeap<Integer>(list);
+		for (int i = 0; i < 50; i++) {
+			heap.add(list.get(i));
+		}
+		assertEquals(49, heap.peek());
 	}
         
         // Tests for K largest

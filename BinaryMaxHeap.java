@@ -57,6 +57,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public void add(E item) {
+		if (size >= heap.length) growHeap();
 		heap[size] = item;
 		percolateUp(item, size);
 		size++;
@@ -194,5 +195,15 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 			percolateDown(list.get(i), i);
 		}
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void growHeap() {
+		Object[] newArray = new Object[heap.length * 2];
+		for (int i = 0; i < size; i++) {
+			newArray[i] = heap[i];
+		}
+		
+		heap = ((E[]) newArray);
 	}
 }
