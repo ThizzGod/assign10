@@ -8,10 +8,10 @@ import java.util.NoSuchElementException;
  * 
  * @param <E>
  */
-public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> {
+public class BinaryMaxHeap<E> implements PriorityQueue<E> {
     private E[] heap;
     private int size;
-    private boolean isComparatorType;
+    private Comparator<? super E> cmp;
     
     /**
      * 
@@ -19,15 +19,19 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap() {
 		size = 0;
-		this.heap = ((E[]) new Comparable[25]);
+		this.heap = ((E[]) new Object[25]);
+		this.cmp = null;
 	}
 	
 	/**
 	 * 
 	 * @param cmp
 	 */
+	@SuppressWarnings("unchecked")
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		
+		size = 0;
+		this.heap = ((E[]) new Object[25]);
+		this.cmp = cmp;
 	}
 	
 	/**
@@ -123,10 +127,9 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 	
 	private void  percolateUp(E item, int node) {
 		int parent = (node - 1) / 2;
-		if (item.compareTo(heap[parent]) <= 0) {
+		if (innerCompare(item, heap[parent]) <= 0) {
 			return;
-		}
-		if (item.compareTo(heap[parent]) > 0) {
+		} else {
 			E temp = heap[parent];
 			heap[parent] = item;
 			heap[node] = temp;
@@ -141,7 +144,7 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 		if (heap[right] == null && heap[left] == null) {
 			return;
 		} else if (heap[left] == null) {
-			if (heap[node].compareTo(heap[right]) < 0) {
+			if (innerCompare(heap[node], heap[right]) < 0) {
 				E temp = heap[right];
 				heap[right] = item;
 				heap[node] = temp;
@@ -149,22 +152,22 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 			} else return;
 
 		} else if (heap[right] == null) {
-			if (heap[node].compareTo(heap[left]) < 0) {
+			if (innerCompare(heap[node], heap[left]) < 0) {
 				E temp = heap[left];
 				heap[left] = item;
 				heap[node] = temp;
 				percolateDown(item, left);			
 			} else return;
 
-		} else if (heap[left].compareTo(heap[right]) > 0) {
-			if (heap[node].compareTo(heap[left]) < 0) {
+		} else if (innerCompare(heap[left], heap[right]) > 0) {
+			if (innerCompare(heap[node], heap[left]) < 0) {
 				E temp = heap[left];
 				heap[left] = item;
 				heap[node] = temp;
 				percolateDown(item, left);
 			} else return;
 		} else {
-			if (heap[node].compareTo(heap[right]) < 0) {
+			if (innerCompare(heap[node], heap[right]) < 0) {
 				E temp = heap[right];
 				heap[right] = item;
 				heap[node] = temp;
@@ -172,4 +175,13 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E> 
 			} else return;
 		} 
 	} 
+	
+	@SuppressWarnings({ "unchecked" })
+	private int innerCompare(E a, E b) {
+		if (cmp != null) {
+			return cmp.compare(a, b);
+		}
+		
+		return ((Comparable<? super E>) a).compareTo(b);
+	}
 }
