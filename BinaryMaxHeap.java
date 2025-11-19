@@ -249,6 +249,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 
 	}
 	
+	/**
+	 * Grow backing array when full
+	 */
 	@SuppressWarnings("unchecked")
 	private void growHeap() {
 		Object[] newArray = new Object[heap.length * 2];
