@@ -40,11 +40,20 @@ class BinaryMaxHeapTester {
 		heap.add(10);
 		heap.add(30);
 		heap.add(20);
+		heap.add(600);
+		heap.add((-12));
+		heap.add(14);
+		heap.add(-50);
+		assertEquals(600, heap.extractMax());
 		assertEquals(30, heap.extractMax());
 		assertEquals(20, heap.extractMax());
+		assertEquals(14, heap.extractMax());
 		assertEquals(10, heap.extractMax());
+		assertEquals(-12, heap.extractMax());
+		assertEquals(-50, heap.extractMax());
 		assertTrue(heap.isEmpty());
 	}
+	
 
 	@Test
 	public void testPeek() {
