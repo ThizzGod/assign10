@@ -1,8 +1,11 @@
 package assign10;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.print.attribute.Size2DSyntax;
 
 /**
  * This class contains generic static methods for finding the k largest items in
@@ -28,9 +31,7 @@ public class FindKLargest {
 		if (k < 0 || k > items.size())
 			throw new IllegalArgumentException();
 
-		BinaryMaxHeap<E> heap = new BinaryMaxHeap<>();
-		for (E element : items)
-			heap.add(element);
+		BinaryMaxHeap<E> heap = new BinaryMaxHeap<>(items);
 
 		List<E> result = new ArrayList<>();
 		for (int i = 0; i < k; i++)
@@ -54,9 +55,7 @@ public class FindKLargest {
 		if (k < 0 || k > items.size())
 			throw new IllegalArgumentException();
 
-		BinaryMaxHeap<E> heap = new BinaryMaxHeap<>(cmp);
-		for (E element : items)
-			heap.add(element);
+		BinaryMaxHeap<E> heap = new BinaryMaxHeap<>(items, cmp);
 
 		List<E> result = new ArrayList<>();
 		for (int i = 0; i < k; i++)
@@ -79,7 +78,14 @@ public class FindKLargest {
 			throws IllegalArgumentException {
 		if (k < 0 || k > items.size())
 			throw new IllegalArgumentException();
-		return null;
+		Collections.sort(items);
+		
+		List<E> largest = new ArrayList<E>();
+		
+		for (int i = 0; i < k; i++) {
+			largest.add(items.get(items.size() - 1 - i));
+		}
+		return largest;
 	}
 
 	/**
@@ -96,6 +102,13 @@ public class FindKLargest {
 			throws IllegalArgumentException {
 		if (k < 0 || k > items.size())
 			throw new IllegalArgumentException();
-		return null;
+		Collections.sort(items, cmp);
+		
+		List<E> largest = new ArrayList<E>();
+		
+		for (int i = 0; i < k; i++) {
+			largest.add(items.get(items.size() - 1 - i));
+		}
+		return largest;
 	}
 }
